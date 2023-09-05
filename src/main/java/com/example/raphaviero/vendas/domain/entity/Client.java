@@ -1,12 +1,21 @@
 package com.example.raphaviero.vendas.domain.entity;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.IdGeneratorType;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "TB_CLIENT")
 public class Client {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String name;
 
-
-    public Client() {
+public Client() {
     }
 
 
@@ -42,5 +51,18 @@ public class Client {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client client)) return false;
+        return id.equals(client.id);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

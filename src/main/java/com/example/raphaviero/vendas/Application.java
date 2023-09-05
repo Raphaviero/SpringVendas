@@ -14,27 +14,32 @@ import java.util.List;
 public class Application {
 
 
-	@Bean
-	public CommandLineRunner init(@Autowired ClientRepository clientRepository){
-		return  args -> {
-			clientRepository.saveClient(new Client("Raphael"));
-			clientRepository.saveClient(new Client("Joao"));
+    @Bean
+    public CommandLineRunner init(@Autowired ClientRepository clientRepository) {
+        return args -> {
+            System.out.println("Salvando Clientes");
+            clientRepository.saveClient(new Client("Raphael"));
+            clientRepository.saveClient(new Client("Joao"));
 
-			List<Client> allClients = clientRepository.listAll();
-			allClients.forEach(System.out::println);
+            List<Client> allClients = clientRepository.listAll();
+            allClients.forEach(System.out::println);
 
-			allClients.forEach(c -> {
-				c.setName(c.getName()+ "atualizado.");
-				clientRepository.updateClient(c);
-			});
-		};
-	}
+            System.out.println(" Atualizando clientes ");
+            allClients.forEach(c -> {
+                c.setName(c.getName() + " atualizado. ");
+                clientRepository.updateClient(c);
+            });
 
+            allClients = clientRepository.listAll();
+            if (allClients.isEmpty()) {
+                System.out.println(" Nenhum cliente encontrado. ");
+            } else {
+                allClients.forEach(System.out::println);
+            }
+        };
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-
-
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }
