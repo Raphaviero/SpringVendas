@@ -1,9 +1,9 @@
 package com.example.raphaviero.vendas.domain.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_CLIENT")
@@ -13,9 +13,13 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "name", length = 100)
     private String name;
 
-public Client() {
+    @OneToMany(mappedBy = "client")
+    private Set<Order> Orders;
+
+    public Client() {
     }
 
 
@@ -28,6 +32,13 @@ public Client() {
         this.name = name;
     }
 
+    public Set<Order> getOrders() {
+        return Orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        Orders = orders;
+    }
 
     public Integer getId() {
         return id;
