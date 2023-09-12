@@ -1,12 +1,7 @@
 package com.example.raphaviero.vendas;
 
-import com.example.raphaviero.vendas.domain.entity.Client;
-import com.example.raphaviero.vendas.domain.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
