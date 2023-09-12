@@ -18,6 +18,12 @@ public class Client {
     private String name;
 
 
+    @Column(name = "cpf", length = 11)
+    private String cpf;
+
+
+
+
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> Orders;
 
@@ -29,9 +35,10 @@ public class Client {
         this.name = name;
     }
 
-    public Client(Integer id, String name) {
+    public Client(Integer id, String name, String cpf) {
         this.id = id;
         this.name = name;
+        this.cpf = cpf;
     }
 
     @JsonIgnore
@@ -58,6 +65,14 @@ public class Client {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     @Override
