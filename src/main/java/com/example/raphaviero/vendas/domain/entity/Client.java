@@ -1,5 +1,6 @@
 package com.example.raphaviero.vendas.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,7 +17,8 @@ public class Client {
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "client")
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> Orders;
 
     public Client() {
@@ -32,10 +34,12 @@ public class Client {
         this.name = name;
     }
 
+    @JsonIgnore
     public Set<Order> getOrders() {
         return Orders;
     }
 
+    @JsonIgnore
     public void setOrders(Set<Order> orders) {
         Orders = orders;
     }
