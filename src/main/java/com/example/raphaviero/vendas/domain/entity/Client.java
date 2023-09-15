@@ -2,10 +2,15 @@ package com.example.raphaviero.vendas.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Objects;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "TB_CLIENT")
 public class Client {
@@ -17,29 +22,11 @@ public class Client {
     @Column(name = "name", length = 100)
     private String name;
 
-
     @Column(name = "cpf", length = 11)
     private String cpf;
 
-
-
-
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> Orders;
-
-    public Client() {
-    }
-
-
-    public Client(String name) {
-        this.name = name;
-    }
-
-    public Client(Integer id, String name, String cpf) {
-        this.id = id;
-        this.name = name;
-        this.cpf = cpf;
-    }
 
     @JsonIgnore
     public Set<Order> getOrders() {
@@ -50,49 +37,9 @@ public class Client {
     public void setOrders(Set<Order> orders) {
         Orders = orders;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Client client)) return false;
-        return id.equals(client.id);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
+
+
+
+
+

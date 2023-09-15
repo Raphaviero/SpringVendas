@@ -1,4 +1,4 @@
-package com.example.raphaviero.vendas.rest.controller;
+package com.example.raphaviero.vendas.domain.rest.controller;
 
 import com.example.raphaviero.vendas.domain.entity.Product;
 import com.example.raphaviero.vendas.domain.repository.ProductRepository;
