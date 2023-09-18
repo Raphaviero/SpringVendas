@@ -2,6 +2,7 @@ package com.example.raphaviero.vendas.domain.rest.controller;
 
 import com.example.raphaviero.vendas.domain.rest.ApiErrors;
 import com.example.raphaviero.vendas.exception.BusinessRuleException;
+import com.example.raphaviero.vendas.exception.OrderNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,4 +17,11 @@ public class ApplicationControllerAdvice {
         String messageErro = ex.getMessage();
         return new ApiErrors(messageErro);
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handleOrderNotFoundException(OrderNotFoundException ex){
+        return new ApiErrors(ex.getMessage());
+    }
+
 }

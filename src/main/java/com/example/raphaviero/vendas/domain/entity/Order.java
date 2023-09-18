@@ -1,5 +1,7 @@
 package com.example.raphaviero.vendas.domain.entity;
 
+import com.example.raphaviero.vendas.domain.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +32,11 @@ public class Order {
 
     @Column(name = "total", precision = 50, scale = 2)
     private BigDecimal totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status")
+    private OrderStatus orderStatus;
+
 
     @OneToMany(mappedBy = "order")
     private List<ItemOrder> itemOrderList;

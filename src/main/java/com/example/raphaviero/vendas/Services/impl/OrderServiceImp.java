@@ -5,6 +5,7 @@ import com.example.raphaviero.vendas.domain.entity.Client;
 import com.example.raphaviero.vendas.domain.entity.ItemOrder;
 import com.example.raphaviero.vendas.domain.entity.Order;
 import com.example.raphaviero.vendas.domain.entity.Product;
+import com.example.raphaviero.vendas.domain.enums.OrderStatus;
 import com.example.raphaviero.vendas.domain.repository.ClientRepository;
 import com.example.raphaviero.vendas.domain.repository.ItemOrderRepositoy;
 import com.example.raphaviero.vendas.domain.repository.OrderRepository;
@@ -12,6 +13,7 @@ import com.example.raphaviero.vendas.domain.repository.ProductRepository;
 import com.example.raphaviero.vendas.exception.BusinessRuleException;
 import com.example.raphaviero.vendas.domain.rest.dto.ItemOrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.OrderDTO;
+import com.example.raphaviero.vendas.exception.OrderNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,7 @@ public class OrderServiceImp implements OrderService {
         order.setTotalPrice(dto.getTotal());
         order.setDateOrder(LocalDate.now());
         order.setClient(client);
+        order.setOrderStatus(OrderStatus.REALIZADO);
 
         List<ItemOrder> itemOrderList = convertItems(order, dto.getItems());
         orderRepository.save(order);
@@ -55,6 +58,20 @@ public class OrderServiceImp implements OrderService {
     @Override
     public Optional<Order> takeCompleteOrder(Integer id) {
         return orderRepository.findByIdFetchitemOrderList(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(Integer id, OrderStatus orderStatus) {
+        orderRepository
+                .findById(id)
+                .map(order -> {
+                        order.setOrderStatus(orderStatus);
+                        return orderRepository.save(order);
+                }).orElseThrow(() -> new OrderNotFoundException() );
+
+
+
     }
 
     private List<ItemOrder> convertItems(Order order, List<ItemOrderDTO> items) {

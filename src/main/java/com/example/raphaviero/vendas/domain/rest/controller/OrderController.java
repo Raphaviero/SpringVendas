@@ -3,9 +3,11 @@ package com.example.raphaviero.vendas.domain.rest.controller;
 import com.example.raphaviero.vendas.Services.OrderService;
 import com.example.raphaviero.vendas.domain.entity.ItemOrder;
 import com.example.raphaviero.vendas.domain.entity.Order;
+import com.example.raphaviero.vendas.domain.enums.OrderStatus;
 import com.example.raphaviero.vendas.domain.rest.dto.InformationItemOrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.InformationOrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.OrderDTO;
+import com.example.raphaviero.vendas.domain.rest.dto.StatusUpdateDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,6 +43,15 @@ public class OrderController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
     }
 
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    private void updateStatus(@RequestBody StatusUpdateDTO dto,
+                              @PathVariable Integer id){
+        String newStatus = dto.getNewStatus();
+        orderService.updateStatus(id, OrderStatus.valueOf(newStatus));
+
+    }
+
     private InformationOrderDTO convert(Order order) {
         return InformationOrderDTO
                 .builder()
@@ -49,6 +60,7 @@ public class OrderController {
                 .cpf(order.getClient().getCpf())
                 .clientName(order.getClient().getName())
                 .total(order.getTotalPrice())
+                .status(order.getOrderStatus().name())
                 .items(converter(order.getItemOrderList()))
                 .build();
     }

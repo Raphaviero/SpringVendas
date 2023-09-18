@@ -1,5 +1,6 @@
 package com.example.raphaviero.vendas.domain.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,11 @@ public class InformationOrderDTO {
     private String cpf;
     private String clientName;
     private BigDecimal total;
+
+    @JsonIgnore
+    private String OrderDate;
+
+    private String status;
     private List<InformationItemOrderDTO> items;
 
 }
