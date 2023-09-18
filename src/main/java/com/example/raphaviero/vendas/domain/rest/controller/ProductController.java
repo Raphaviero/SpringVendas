@@ -2,6 +2,7 @@ package com.example.raphaviero.vendas.domain.rest.controller;
 
 import com.example.raphaviero.vendas.domain.entity.Product;
 import com.example.raphaviero.vendas.domain.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product saveProduct(@RequestBody Product product) {
+    public Product saveProduct(@RequestBody @Valid Product product) {
 
         return productRepository.save(product);
     }
@@ -46,7 +47,7 @@ public class ProductController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+    public void updateProduct(@PathVariable Integer id, @RequestBody @Valid Product product) {
         productRepository.findById(id).map(productExists ->
                 {
                     product.setId(productExists.getId());

@@ -2,6 +2,7 @@ package com.example.raphaviero.vendas.domain.rest.controller;
 
 import com.example.raphaviero.vendas.domain.entity.Client;
 import com.example.raphaviero.vendas.domain.repository.ClientRepository;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client saveClient(@RequestBody Client client) {
+    public Client saveClient(@RequestBody @Valid Client client) {
         return clientRepository.save(client);
     }
 
@@ -45,7 +46,7 @@ public class ClientController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClient(@PathVariable Integer id, @RequestBody Client client) {
+    public void updateClient(@PathVariable Integer id, @RequestBody @Valid Client client) {
         clientRepository
                 .findById(id)
                 .map(clientExist -> {

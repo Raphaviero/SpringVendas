@@ -8,6 +8,7 @@ import com.example.raphaviero.vendas.domain.rest.dto.InformationItemOrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.InformationOrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.OrderDTO;
 import com.example.raphaviero.vendas.domain.rest.dto.StatusUpdateDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,7 +32,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer save(@RequestBody OrderDTO orderDTO) {
+    public Integer save(@RequestBody @Valid OrderDTO orderDTO) {
         Order order = orderService.save(orderDTO);
         return order.getId();
     }
@@ -45,7 +46,7 @@ public class OrderController {
 
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void updateStatus(@RequestBody StatusUpdateDTO dto,
+    private void updateStatus(@RequestBody @Valid StatusUpdateDTO dto,
                               @PathVariable Integer id){
         String newStatus = dto.getNewStatus();
         orderService.updateStatus(id, OrderStatus.valueOf(newStatus));
